@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexora Tour Planner — Nexora Systems India</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0b1f3a;
+  --navy2: #112849;
+  --navy3: #0d2040;
+  --blue: #1565c0;
+  --blue2: #1976d2;
+  --teal: #00796b;
+  --teal2: #009688;
+  --gold: #c8861a;
+  --gold2: #f0a030;
+  --cream: #faf8f3;
+  --paper: #f4f1ea;
+  --white: #ffffff;
+  --text: #1a1a2e;
+  --text2: #3d4466;
+  --text3: #6b7280;
+  --border: rgba(11,31,58,0.12);
+  --border2: rgba(11,31,58,0.06);
+  --shadow: 0 2px 20px rgba(11,31,58,0.08);
+  --shadow2: 0 8px 40px rgba(11,31,58,0.14);
+  --shadow3: 0 20px 60px rgba(11,31,58,0.18);
+  --radius: 16px;
+  --radius2: 12px;
+  --radius3: 8px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── TOP NAV ── */
+.topnav {
+  background: var(--navy);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-name { font-family: 'Playfair Display', serif; font-size: 18px; color: #fff; font-weight: 700; letter-spacing: 0.3px; }
+.brand-tag { font-size: 9px; background: var(--gold); color: #fff; padding: 2px 7px; border-radius: 20px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+.nav-url { font-size: 11px; color: rgba(255,255,255,0.4); font-family: 'DM Mono', monospace; }
+.nav-tabs { display: flex; gap: 4px; }
+.nav-tab { padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.55); cursor: pointer; transition: all 0.2s; border: none; background: none; }
+.nav-tab:hover { color: #fff; background: rgba(255,255,255,0.08); }
+.nav-tab.active { color: #fff; background: rgba(255,255,255,0.12); }
+
+/* ── HERO SEARCH ── */
+.hero {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 40%, #0a3d5c 100%);
+  padding: 3rem 2rem 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.hero-inner { max-width: 1100px; margin: 0 auto; position: relative; }
+.hero-label { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold2); margin-bottom: 8px; }
+.hero-title { font-family: 'Playfair Display', serif; font-size: 36px; color: #fff; font-weight: 700; line-height: 1.2; margin-bottom: 6px; }
+.hero-sub { font-size: 14px; color: rgba(255,255,255,0.5); margin-bottom: 2rem; }
+
+/* Search card */
+.search-card {
+  background: rgba(255,255,255,0.97);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: var(--shadow3);
+}
+.search-grid { display: grid; grid-template-columns: 2fr 1.2fr 1.2fr; gap: 1rem; margin-bottom: 1rem; }
+.search-row2 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label { font-size: 11px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text3); }
+.field input, .field select {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius3);
+  padding: 10px 14px;
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text);
+  background: var(--cream);
+  transition: border-color 0.2s;
+  outline: none;
+}
+.field input:focus, .field select:focus { border-color: var(--blue2); background: #fff; }
+.field input::placeholder { color: var(--text3); }
+
+.trip-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.pill {
+  padding: 7px 14px; border-radius: 20px; font-size: 12px; font-weight: 500;
+  border: 1.5px solid var(--border); cursor: pointer; transition: all 0.18s;
+  background: var(--cream); color: var(--text2);
+}
+.pill:hover { border-color: var(--blue2); color: var(--blue2); }
+.pill.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+.pill.nature { }
+.pill.nature.active { background: var(--teal); border-color: var(--teal); }
+
+.search-btn {
+  width: 100%; padding: 14px; background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+  color: #fff; border: none; border-radius: 12px; font-size: 15px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+  display: flex; align-items: center; justify-content: center; gap: 8px; letter-spacing: 0.3px;
+}
+.search-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(21,101,192,0.35); }
+.search-btn:active { transform: translateY(0); }
+.search-btn svg { width: 18px; height: 18px; }
+
+/* ── MAIN CONTENT ── */
+.main { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+
+/* Section headers */
+.sec-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+.sec-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; color: var(--text); }
+.sec-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+.badge { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; }
+.badge-teal { background: rgba(0,121,107,0.1); color: var(--teal); }
+.badge-gold { background: rgba(200,134,26,0.12); color: var(--gold); }
+.badge-navy { background: rgba(11,31,58,0.08); color: var(--navy); }
+
+/* ── ACCOMMODATION TIERS ── */
+.tier-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; margin-bottom: 2.5rem; }
+.tier-col { background: var(--white); border-radius: var(--radius); border: 1.5px solid var(--border); overflow: hidden; box-shadow: var(--shadow); }
+.tier-head { padding: 1rem 1.25rem 0.875rem; display: flex; align-items: center; justify-content: space-between; }
+.tier-head.budget { background: linear-gradient(135deg, #e8f5e9, #f1f8f4); }
+.tier-head.mid { background: linear-gradient(135deg, #e3f2fd, #f0f7fd); }
+.tier-head.premium { background: linear-gradient(135deg, #fff8e1, #fffcf0); }
+.tier-name { font-size: 13px; font-weight: 600; }
+.tier-name.budget { color: #2e7d32; }
+.tier-name.mid { color: #1565c0; }
+.tier-name.premium { color: #c8861a; }
+.tier-price-range { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; }
+.tier-price-range.budget { color: #2e7d32; }
+.tier-price-range.mid { color: #1565c0; }
+.tier-price-range.premium { color: #c8861a; }
+.tier-items { padding: 0.75rem 0; }
+.tier-item { padding: 0.7rem 1.25rem; display: flex; align-items: flex-start; gap: 10px; border-bottom: 1px solid var(--border2); transition: background 0.15s; cursor: pointer; }
+.tier-item:last-child { border-bottom: none; }
+.tier-item:hover { background: var(--cream); }
+.ti-icon { width: 28px; height: 28px; border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; }
+.ti-info { flex: 1; }
+.ti-name { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.3; }
+.ti-detail { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.ti-price { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; color: var(--text); white-space: nowrap; margin-top: 2px; }
+.ti-rating { display: flex; align-items: center; gap: 3px; font-size: 10px; color: var(--text3); margin-top: 2px; }
+.star { color: #f59e0b; font-size: 10px; }
+
+/* ── TRANSPORT ── */
+.transport-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 2.5rem; }
+.transport-card { background: var(--white); border-radius: var(--radius); border: 1.5px solid var(--border); overflow: hidden; box-shadow: var(--shadow); }
+.tc-head { padding: 1rem 1.25rem; background: var(--navy); color: #fff; display: flex; align-items: center; gap: 8px; }
+.tc-head-title { font-size: 14px; font-weight: 600; }
+.tc-head-sub { font-size: 11px; color: rgba(255,255,255,0.5); margin-left: auto; }
+.tc-body { padding: 0.5rem 0; }
+.tc-row { padding: 0.7rem 1.25rem; display: grid; grid-template-columns: 1fr auto auto; gap: 8px; align-items: center; border-bottom: 1px solid var(--border2); }
+.tc-row:last-child { border-bottom: none; }
+.tc-name { font-size: 13px; font-weight: 500; color: var(--text); }
+.tc-detail { font-size: 11px; color: var(--text3); }
+.tc-price { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--navy); text-align: right; }
+.tc-book { font-size: 10px; font-weight: 600; color: var(--blue2); background: rgba(25,118,210,0.08); padding: 3px 8px; border-radius: 12px; white-space: nowrap; }
+
+/* ── ROAD ROUTE ── */
+.route-card { background: var(--white); border-radius: var(--radius); border: 1.5px solid var(--border); padding: 1.5rem; margin-bottom: 2.5rem; box-shadow: var(--shadow); }
+.route-header { display: flex; align-items: center; gap: 8px; margin-bottom: 1.25rem; }
+.route-icon { width: 36px; height: 36px; background: linear-gradient(135deg, var(--teal), #26a69a); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+.route-legs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+.route-leg { background: var(--cream); border-radius: 12px; padding: 1rem; border: 1px solid var(--border); }
+.rl-from-to { font-size: 11px; font-weight: 600; color: var(--navy); margin-bottom: 6px; display: flex; align-items: center; gap: 4px; }
+.rl-arrow { color: var(--text3); }
+.rl-stats { display: flex; flex-direction: column; gap: 4px; }
+.rl-stat { display: flex; justify-content: space-between; align-items: center; }
+.rl-stat-label { font-size: 10px; color: var(--text3); }
+.rl-stat-val { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: var(--text); }
+.rl-road { font-size: 10px; color: var(--teal); font-weight: 600; margin-top: 6px; background: rgba(0,121,107,0.08); padding: 3px 8px; border-radius: 20px; display: inline-block; }
+
+/* ── ITINERARY ── */
+.itin-wrap { margin-bottom: 2.5rem; }
+.itin-days { display: flex; gap: 8px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.itin-day-btn { padding: 7px 16px; border-radius: 20px; font-size: 12px; font-weight: 500; border: 1.5px solid var(--border); cursor: pointer; background: var(--white); color: var(--text2); transition: all 0.18s; }
+.itin-day-btn.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+.itin-timeline { background: var(--white); border-radius: var(--radius); border: 1.5px solid var(--border); overflow: hidden; box-shadow: var(--shadow); }
+.itin-slot { display: grid; grid-template-columns: 100px 1fr; border-bottom: 1px solid var(--border2); }
+.itin-slot:last-child { border-bottom: none; }
+.itin-time { padding: 1.25rem 1rem; background: var(--cream); text-align: center; border-right: 1px solid var(--border2); }
+.it-period { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); }
+.it-time { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--navy); margin-top: 4px; font-weight: 500; }
+.itin-content { padding: 1.25rem; }
+.ic-activity { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.ic-desc { font-size: 12px; color: var(--text3); line-height: 1.6; margin-bottom: 8px; }
+.ic-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.ic-tag { font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: 12px; }
+.ic-tag.transport { background: rgba(21,101,192,0.08); color: var(--blue); }
+.ic-tag.food { background: rgba(200,134,26,0.1); color: var(--gold); }
+.ic-tag.activity { background: rgba(0,121,107,0.08); color: var(--teal); }
+.ic-tag.cost { background: rgba(11,31,58,0.06); color: var(--text2); font-family: 'DM Mono', monospace; }
+
+/* ── PLACE CARDS ── */
+.places-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-bottom: 2.5rem; }
+.place-card { background: var(--white); border-radius: var(--radius); border: 1.5px solid var(--border); overflow: hidden; box-shadow: var(--shadow); transition: all 0.2s; cursor: pointer; }
+.place-card:hover { transform: translateY(-3px); box-shadow: var(--shadow2); }
+.pc-img { height: 130px; background: linear-gradient(135deg, var(--navy), var(--teal)); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+.pc-img-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 60%); }
+.pc-img-label { position: absolute; bottom: 8px; left: 10px; font-size: 13px; font-weight: 600; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.4); }
+.pc-fee { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.55); color: #fff; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 8px; border-radius: 12px; }
+.pc-body { padding: 1rem; }
+.pc-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.pc-ratings { display: flex; gap: 8px; margin-bottom: 8px; }
+.pc-rating { display: flex; align-items: center; gap: 4px; font-size: 11px; }
+.pc-rating-score { font-weight: 600; color: var(--text); }
+.pc-rating-platform { color: var(--text3); }
+.pc-best-time { font-size: 11px; color: var(--text3); display: flex; align-items: center; gap: 4px; }
+.pc-highlight { font-size: 12px; color: var(--text2); margin-top: 6px; line-height: 1.5; padding-top: 8px; border-top: 1px solid var(--border2); }
+
+/* ── BOOKING TABLE ── */
+.booking-table { background: var(--white); border-radius: var(--radius); border: 1.5px solid var(--border); overflow: hidden; box-shadow: var(--shadow); margin-bottom: 2.5rem; }
+.bt-head { display: grid; grid-template-columns: 1.5fr 1.5fr 1fr 1fr; gap: 0; background: var(--navy); }
+.bt-hcell { padding: 0.875rem 1.25rem; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+.bt-row { display: grid; grid-template-columns: 1.5fr 1.5fr 1fr 1fr; border-bottom: 1px solid var(--border2); transition: background 0.15s; }
+.bt-row:last-child { border-bottom: none; }
+.bt-row:hover { background: var(--cream); }
+.bt-cell { padding: 0.875rem 1.25rem; font-size: 13px; color: var(--text); display: flex; align-items: center; gap: 6px; }
+.bt-platform { font-weight: 600; color: var(--navy); }
+.bt-link { font-size: 11px; color: var(--blue2); text-decoration: none; display: inline-flex; align-items: center; gap: 3px; }
+.bt-link:hover { text-decoration: underline; }
+.bt-price { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--navy); }
+.confirm-badge { font-size: 9px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; padding: 2px 7px; border-radius: 10px; }
+.cb-high { background: rgba(46,125,50,0.1); color: #2e7d32; }
+.cb-med { background: rgba(245,158,11,0.12); color: #b45309; }
+.cb-low { background: rgba(239,68,68,0.1); color: #dc2626; }
+
+/* ── FOOD SECTION ── */
+.food-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-bottom: 2.5rem; }
+.food-card { background: var(--white); border-radius: var(--radius2); border: 1.5px solid var(--border); padding: 1rem; box-shadow: var(--shadow); }
+.fc-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; font-size: 18px; }
+.fc-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+.fc-type { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.fc-price { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; color: var(--teal); }
+.fc-rating { font-size: 10px; color: var(--text3); margin-top: 4px; }
+
+/* ── COST SUMMARY ── */
+.cost-summary { background: linear-gradient(135deg, var(--navy) 0%, #0d3a6e 100%); border-radius: var(--radius); padding: 2rem; margin-bottom: 2.5rem; color: #fff; }
+.cs-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; margin-bottom: 1.5rem; color: #fff; }
+.cs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-bottom: 1.5rem; }
+.cs-item { background: rgba(255,255,255,0.07); border-radius: 12px; padding: 1.1rem; border: 1px solid rgba(255,255,255,0.1); }
+.cs-label { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 8px; }
+.cs-tiers { display: flex; flex-direction: column; gap: 4px; }
+.cs-tier { display: flex; justify-content: space-between; align-items: center; }
+.cs-tier-name { font-size: 11px; color: rgba(255,255,255,0.6); }
+.cs-tier-val { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; color: #fff; }
+.cs-total { border-top: 1px solid rgba(255,255,255,0.12); padding-top: 1.25rem; display: flex; justify-content: space-between; align-items: center; }
+.cs-total-label { font-size: 12px; color: rgba(255,255,255,0.55); }
+.cs-total-val { font-family: 'DM Mono', monospace; font-size: 18px; font-weight: 500; color: var(--gold2); }
+
+/* ── LOADING STATE ── */
+.loading-overlay {
+  position: fixed; inset: 0; background: rgba(11,31,58,0.85); z-index: 200;
+  display: none; align-items: center; justify-content: center; flex-direction: column; gap: 20px;
+}
+.loading-overlay.active { display: flex; }
+.loader-ring { width: 48px; height: 48px; border: 3px solid rgba(255,255,255,0.15); border-top-color: var(--gold2); border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loader-text { font-size: 14px; color: rgba(255,255,255,0.75); font-weight: 500; }
+.loader-sub { font-size: 12px; color: rgba(255,255,255,0.4); }
+
+/* ── RESULTS CONTAINER ── */
+#results { display: none; }
+#results.active { display: block; }
+
+/* ── EMPTY STATE ── */
+.empty-state { text-align: center; padding: 4rem 2rem; }
+.es-icon { font-size: 48px; margin-bottom: 1rem; opacity: 0.3; }
+.es-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--text); margin-bottom: 8px; }
+.es-sub { font-size: 14px; color: var(--text3); }
+
+/* ── SECTIONS ── */
+.section-divider { border: none; border-top: 1.5px solid var(--border); margin: 2rem 0; }
+.sec-wrap { margin-bottom: 2.5rem; }
+
+/* ── FOOTER ── */
+.page-footer { background: var(--navy); color: rgba(255,255,255,0.4); text-align: center; padding: 1rem; font-size: 11px; font-family: 'DM Mono', monospace; margin-top: 2rem; }
+.page-footer span { color: rgba(255,255,255,0.65); font-weight: 500; }
+
+/* AI badge */
+.ai-powered { display: inline-flex; align-items: center; gap: 5px; background: rgba(255,165,0,0.1); border: 1px solid rgba(255,165,0,0.2); padding: 3px 10px; border-radius: 20px; font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); }
+.ai-dot { width: 6px; height: 6px; background: var(--gold2); border-radius: 50%; animation: pulse 1.5s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .search-grid { grid-template-columns: 1fr 1fr; }
+  .search-row2 { grid-template-columns: 1fr 1fr; }
+  .tier-grid { grid-template-columns: 1fr; }
+  .transport-grid { grid-template-columns: 1fr; }
+  .route-legs { grid-template-columns: 1fr 1fr; }
+  .places-grid { grid-template-columns: 1fr 1fr; }
+  .food-grid { grid-template-columns: 1fr 1fr; }
+  .cs-grid { grid-template-columns: 1fr 1fr; }
+  .hero-title { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loader-ring"></div>
+  <div class="loader-text" id="loaderText">Searching best options for you...</div>
+  <div class="loader-sub" id="loaderSub">Powered by Nexora AI — fetching stays, transport & more</div>
+</div>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <div class="brand">
+    <div class="brand-name">NEXORA SYSTEMS</div>
+    <div class="brand-tag">India</div>
+  </div>
+  <div class="nav-tabs" id="navTabs">
+    <button class="nav-tab active" onclick="scrollTo('#searchSection')">Search</button>
+    <button class="nav-tab" onclick="scrollTo('#staySection')">Stays</button>
+    <button class="nav-tab" onclick="scrollTo('#transportSection')">Transport</button>
+    <button class="nav-tab" onclick="scrollTo('#itinSection')">Itinerary</button>
+    <button class="nav-tab" onclick="scrollTo('#placesSection')">Places</button>
+    <button class="nav-tab" onclick="scrollTo('#bookingSection')">Booking</button>
+  </div>
+  <div class="nav-url">www.nexorasystemsindia.com</div>
+</nav>
+
+<!-- HERO SEARCH -->
+<section class="hero" id="searchSection">
+  <div class="hero-inner">
+    <div class="hero-label">Ultimate Tour Planner</div>
+    <h1 class="hero-title">Where would you like to explore?</h1>
+    <p class="hero-sub">Get AI-curated stays, food, transport & detailed itineraries in seconds</p>
+
+    <div class="search-card">
+      <div class="search-grid">
+        <div class="field">
+          <label>Destination</label>
+          <input type="text" id="destination" placeholder="e.g. Manali, Goa, Darjeeling, Rajasthan..." />
+        </div>
+        <div class="field">
+          <label>Departure City</label>
+          <input type="text" id="departure" placeholder="e.g. Kolkata, Mumbai, Delhi..." />
+        </div>
+        <div class="field">
+          <label>Budget (INR / person)</label>
+          <select id="budget">
+            <option value="">Select budget range</option>
+            <option value="under5k">Under ₹5,000</option>
+            <option value="5k-15k">₹5,000 – ₹15,000</option>
+            <option value="15k-30k">₹15,000 – ₹30,000</option>
+            <option value="30k-60k">₹30,000 – ₹60,000</option>
+            <option value="60kplus">₹60,000+</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="search-row2">
+        <div class="field">
+          <label>Nature of Trip</label>
+          <div class="trip-pills" id="naturePills">
+            <div class="pill nature active" data-val="hill">Hill Station</div>
+            <div class="pill nature" data-val="beach">Beach</div>
+            <div class="pill nature" data-val="heritage">Heritage</div>
+            <div class="pill nature" data-val="wildlife">Wildlife</div>
+            <div class="pill nature" data-val="city">City Break</div>
+            <div class="pill nature" data-val="religious">Religious</div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Trip Type</label>
+          <div class="trip-pills" id="typePills">
+            <div class="pill active" data-val="solo">Solo</div>
+            <div class="pill" data-val="couple">Couple</div>
+            <div class="pill" data-val="family">Family</div>
+            <div class="pill" data-val="group">Group</div>
+          </div>
+        </div>
+        <div class="field">
+          <label>No. of Travellers</label>
+          <input type="number" id="travellers" placeholder="e.g. 2" min="1" max="50" value="2" />
+        </div>
+        <div class="field">
+          <label>Days / Nights</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+            <input type="number" id="days" placeholder="Days" min="1" max="30" value="5" />
+            <input type="number" id="nights" placeholder="Nights" min="1" max="30" value="4" />
+          </div>
+        </div>
+      </div>
+
+      <button class="search-btn" onclick="generatePlan()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        Generate My Tour Plan
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<div class="main" id="results">
+
+  <!-- Bird's Eye Summary -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;padding-top:0.5rem">
+    <div>
+      <div id="resultTitle" style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--navy)"></div>
+      <div id="resultMeta" style="font-size:13px;color:var(--text3);margin-top:3px"></div>
+    </div>
+    <div class="ai-powered"><div class="ai-dot"></div>AI Generated Plan</div>
+  </div>
+
+  <!-- Cost Summary -->
+  <div class="cost-summary" id="costSummary"></div>
+
+  <!-- STAYS -->
+  <div class="sec-wrap" id="staySection">
+    <div class="sec-header">
+      <div>
+        <div class="sec-title">Accommodation Options</div>
+        <div class="sec-sub">5 options per tier — Budget · Mid-range · Premium</div>
+      </div>
+      <span class="badge badge-teal">Per night / room</span>
+    </div>
+    <div class="tier-grid" id="stayGrid"></div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- FOOD -->
+  <div class="sec-wrap">
+    <div class="sec-header">
+      <div>
+        <div class="sec-title">Food & Dining</div>
+        <div class="sec-sub">Must-try local and popular restaurants</div>
+      </div>
+      <span class="badge badge-gold">Per meal / person</span>
+    </div>
+    <div class="food-grid" id="foodGrid"></div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- TRANSPORT -->
+  <div class="sec-wrap" id="transportSection">
+    <div class="sec-header">
+      <div>
+        <div class="sec-title">Getting There & Around</div>
+        <div class="sec-sub">Train, flight and local transport options with booking guide</div>
+      </div>
+    </div>
+    <div class="transport-grid" id="transportGrid"></div>
+  </div>
+
+  <!-- ROAD ROUTE -->
+  <div class="sec-wrap">
+    <div class="sec-header">
+      <div>
+        <div class="sec-title">Road Route Info</div>
+        <div class="sec-sub">Google Maps suggested routes with distance and travel time</div>
+      </div>
+      <span class="badge badge-teal">By road</span>
+    </div>
+    <div class="route-card">
+      <div class="route-header">
+        <div class="route-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </div>
+        <div>
+          <div style="font-size:14px;font-weight:600;color:var(--navy)" id="routeTitle">Route Overview</div>
+          <div style="font-size:11px;color:var(--text3)" id="routeSub"></div>
+        </div>
+      </div>
+      <div class="route-legs" id="routeLegs"></div>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- ITINERARY -->
+  <div class="sec-wrap" id="itinSection">
+    <div class="sec-header">
+      <div>
+        <div class="sec-title">Day-by-Day Itinerary</div>
+        <div class="sec-sub" id="itinSubTitle">Detailed schedule with activities & costs</div>
+      </div>
+    </div>
+    <div class="itin-wrap">
+      <div class="itin-days" id="itinDayBtns"></div>
+      <div class="itin-timeline" id="itinTimeline"></div>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- PLACES -->
+  <div class="sec-wrap" id="placesSection">
+    <div class="sec-header">
+      <div>
+        <div class="sec-title">Places of Interest</div>
+        <div class="sec-sub">Ratings, entry fees & best time to visit</div>
+      </div>
+    </div>
+    <div class="places-grid" id="placesGrid"></div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- BOOKING TABLE -->
+  <div class="sec-wrap" id="bookingSection">
+    <div class="sec-header">
+      <div>
+        <div class="sec-title">Booking & Tickets Guide</div>
+        <div class="sec-sub">Where to book, estimated rates & availability</div>
+      </div>
+    </div>
+    <div class="booking-table">
+      <div class="bt-head">
+        <div class="bt-hcell">Platform</div>
+        <div class="bt-hcell">What to Book</div>
+        <div class="bt-hcell">Est. Rate (INR)</div>
+        <div class="bt-hcell">Availability</div>
+      </div>
+      <div id="bookingRows"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- EMPTY STATE -->
+<div class="main" id="emptyState">
+  <div class="empty-state">
+    <div class="es-icon">🗺️</div>
+    <div class="es-title">Ready to plan your perfect trip</div>
+    <div class="es-sub">Enter your destination above and hit "Generate My Tour Plan"</div>
+  </div>
+</div>
+
+<footer class="page-footer">
+  <span>NEXORA SYSTEMS</span> &nbsp;·&nbsp; www.nexorasystemsindia.com &nbsp;·&nbsp; Ultimate Tour Planner &nbsp;·&nbsp; AI-Powered Travel Planning
+</footer>
+
+<script>
+// ── PILL TOGGLE ──
+document.querySelectorAll('#naturePills .pill').forEach(p => {
+  p.onclick = () => { document.querySelectorAll('#naturePills .pill').forEach(x => x.classList.remove('active')); p.classList.add('active'); }
+});
+document.querySelectorAll('#typePills .pill').forEach(p => {
+  p.onclick = () => { document.querySelectorAll('#typePills .pill').forEach(x => x.classList.remove('active')); p.classList.add('active'); }
+});
+
+function scrollTo(id) {
+  const el = document.querySelector(id);
+  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// ── ACTIVE ITIN DAY ──
+let currentDay = 0;
+let itinData = [];
+
+function showDay(idx) {
+  currentDay = idx;
+  document.querySelectorAll('.itin-day-btn').forEach((b,i) => b.classList.toggle('active', i===idx));
+  renderItinDay(itinData[idx]);
+}
+
+function renderItinDay(day) {
+  const tl = document.getElementById('itinTimeline');
+  tl.innerHTML = day.slots.map(s => `
+    <div class="itin-slot">
+      <div class="itin-time">
+        <div class="it-period">${s.period}</div>
+        <div class="it-time">${s.time}</div>
+      </div>
+      <div class="itin-content">
+        <div class="ic-activity">${s.activity}</div>
+        <div class="ic-desc">${s.desc}</div>
+        <div class="ic-tags">
+          ${s.transport ? `<span class="ic-tag transport">🚗 ${s.transport}</span>` : ''}
+          ${s.food ? `<span class="ic-tag food">🍽 ${s.food}</span>` : ''}
+          ${s.tags ? s.tags.map(t=>`<span class="ic-tag activity">${t}</span>`).join('') : ''}
+          ${s.cost ? `<span class="ic-tag cost">₹${s.cost}</span>` : ''}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── MAIN GENERATE ──
+async function generatePlan() {
+  const dest = document.getElementById('destination').value.trim();
+  const dep = document.getElementById('departure').value.trim();
+  const budget = document.getElementById('budget').value;
+  const travellers = document.getElementById('travellers').value;
+  const days = document.getElementById('days').value;
+  const nights = document.getElementById('nights').value;
+  const nature = document.querySelector('#naturePills .pill.active')?.dataset.val || 'hill';
+  const tripType = document.querySelector('#typePills .pill.active')?.dataset.val || 'solo';
+
+  if(!dest) { alert('Please enter a destination'); return; }
+
+  // Show loading
+  const overlay = document.getElementById('loadingOverlay');
+  overlay.classList.add('active');
+  const texts = [
+    'Searching best stays for your budget...',
+    'Finding train & flight options...',
+    'Curating local food experiences...',
+    'Building day-by-day itinerary...',
+    'Fetching place ratings & highlights...'
+  ];
+  let ti = 0;
+  const tInterval = setInterval(() => {
+    ti = (ti+1) % texts.length;
+    document.getElementById('loaderText').textContent = texts[ti];
+  }, 1400);
+
+  const budgetLabel = {'under5k':'Under ₹5,000','5k-15k':'₹5,000–₹15,000','15k-30k':'₹15,000–₹30,000','30k-60k':'₹30,000–₹60,000','60kplus':'₹60,000+'}[budget] || 'Flexible';
+  const natureLabel = {'hill':'Hill Station','beach':'Beach','heritage':'Heritage','wildlife':'Wildlife','city':'City Break','religious':'Religious'}[nature];
+  const tripLabel = {'solo':'Solo','couple':'Couple','family':'Family','group':'Group'}[tripType];
+
+  const prompt = `You are a professional Indian travel planner. Generate a comprehensive tour plan for:
+Destination: ${dest}
+Departure from: ${dep || 'major Indian city'}
+Budget per person: ${budgetLabel}
+Nature: ${natureLabel}
+Trip type: ${tripLabel}
+Travellers: ${travellers}
+Duration: ${days} days, ${nights} nights
+
+Return ONLY a valid JSON object with this exact structure (no markdown, no extra text):
+{
+  "destination": "${dest}",
+  "departure": "${dep || 'Kolkata'}",
+  "days": ${days},
+  "nights": ${nights},
+  "travellers": ${travellers},
+  "tripType": "${tripLabel}",
+  "nature": "${natureLabel}",
+  "budgetRange": "${budgetLabel}",
+  "totalCostEstimate": {
+    "budget": { "stay": "₹XXXX", "food": "₹XXXX", "transport": "₹XXXX", "total": "₹XXXX" },
+    "mid": { "stay": "₹XXXX", "food": "₹XXXX", "transport": "₹XXXX", "total": "₹XXXX" },
+    "premium": { "stay": "₹XXXX", "food": "₹XXXX", "transport": "₹XXXX", "total": "₹XXXX" }
+  },
+  "stays": {
+    "budget": [
+      { "name": "Hotel name", "type": "Guesthouse/Hostel/Hotel", "pricePerNight": "₹XXX", "rating": "4.1", "highlight": "One line why it is good" }
+    ],
+    "mid": [ ...5 items same structure ],
+    "premium": [ ...5 items same structure ]
+  },
+  "food": [
+    { "name": "Restaurant/Dhaba name", "type": "Local/Dhaba/Cafe/Fine Dining", "pricePerMeal": "₹XXX", "specialty": "Dish name", "rating": "4.3", "icon": "🍜" }
+  ],
+  "transport": {
+    "trains": [
+      { "name": "Train name & number", "class": "Sleeper/3AC/2AC/1AC", "fare": "₹XXX", "duration": "Xh Xm", "bookAt": "IRCTC" }
+    ],
+    "flights": [
+      { "airline": "Airline name", "type": "Direct/1 Stop", "fare": "₹XXXX", "duration": "Xh Xm", "bookAt": "Platform name" }
+    ],
+    "local": [
+      { "mode": "Auto/Taxi/Bus/Bike rental", "route": "Area to area", "fare": "₹XX–₹XX", "tip": "Short tip" }
+    ]
+  },
+  "roadRoute": {
+    "title": "${dep || 'Kolkata'} to ${dest} Road Journey",
+    "totalDistance": "XXX km",
+    "legs": [
+      { "from": "City A", "to": "City B", "distance": "XXX km", "time": "X hrs", "road": "NH-XX / State Highway", "toll": "₹XXX" }
+    ]
+  },
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Day 1 - Arrival & Exploration",
+      "slots": [
+        { "period": "Morning", "time": "08:00", "activity": "Activity name", "desc": "2-3 sentence description", "transport": "Mode if any", "food": "Meal suggestion", "tags": ["tag1"], "cost": "XXX" },
+        { "period": "Afternoon", "time": "13:00", "activity": "Activity", "desc": "Description", "transport": null, "food": "Lunch spot", "tags": ["Sightseeing"], "cost": "XXX" },
+        { "period": "Evening", "time": "18:00", "activity": "Activity", "desc": "Description", "transport": null, "food": "Dinner spot", "tags": ["tag"], "cost": "XXX" }
+      ]
+    }
+  ],
+  "places": [
+    { "name": "Place name", "googleRating": "4.5", "tripAdvisorRank": "#1 in ${dest}", "entryFee": "₹XX or Free", "bestTime": "Oct–Mar", "highlight": "2-line description of why visit this", "emoji": "🏔️" }
+  ],
+  "bookingGuide": [
+    { "platform": "IRCTC", "what": "Train tickets", "estRate": "₹XXX–₹XXXX", "availability": "High", "url": "https://www.irctc.co.in" },
+    { "platform": "MakeMyTrip", "what": "Flights + Hotels", "estRate": "₹XXXX–₹XXXXX", "availability": "High", "url": "https://www.makemytrip.com" },
+    { "platform": "EaseMyTrip", "what": "Flights + Bus", "estRate": "₹XXX–₹XXXX", "availability": "Medium", "url": "https://www.easemytrip.com" },
+    { "platform": "Booking.com", "what": "Hotels & Resorts", "estRate": "₹XXXX–₹XXXXX", "availability": "High", "url": "https://www.booking.com" },
+    { "platform": "Goibibo", "what": "Hotels + Cabs", "estRate": "₹XXX–₹XXXX", "availability": "High", "url": "https://www.goibibo.com" },
+    { "platform": "Ixigo", "what": "Train + Flights", "estRate": "₹XXX–₹XXXX", "availability": "Medium", "url": "https://www.ixigo.com" },
+    { "platform": "Redbus", "what": "Bus tickets", "estRate": "₹XX–₹XXX", "availability": "High", "url": "https://www.redbus.in" },
+    { "platform": "Airbnb", "what": "Homestays & Villas", "estRate": "₹XXXX–₹XXXXX", "availability": "Medium", "url": "https://www.airbnb.co.in" }
+  ]
+}
+
+Make all data realistic and specific to ${dest}, India. Give exactly 5 items for stays in each tier, 5 food options, 3+ trains, 3+ flights, 3+ local transport. Give ${days} days in itinerary. Give 6+ places of interest.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 8000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    clearInterval(tInterval);
+    overlay.classList.remove('active');
+
+    const raw = data.content?.map(i => i.text || '').join('');
+    const jsonMatch = raw.match(/\{[\s\S]*\}/);
+    if(!jsonMatch) throw new Error('No JSON returned');
+    const plan = JSON.parse(jsonMatch[0]);
+    renderPlan(plan);
+  } catch(e) {
+    clearInterval(tInterval);
+    overlay.classList.remove('active');
+    console.error(e);
+    alert('Could not generate plan. Please try again.');
+  }
+}
+
+function renderPlan(p) {
+  document.getElementById('emptyState').style.display = 'none';
+  const results = document.getElementById('results');
+  results.classList.add('active');
+
+  // Title
+  document.getElementById('resultTitle').textContent = `${p.destination} — ${p.days} Days / ${p.nights} Nights`;
+  document.getElementById('resultMeta').textContent = `${p.tripType} trip · ${p.travellers} traveller${p.travellers>1?'s':''} · ${p.nature} · From ${p.departure} · Budget: ${p.budgetRange}`;
+
+  // Cost Summary
+  const cs = p.totalCostEstimate;
+  document.getElementById('costSummary').innerHTML = `
+    <div class="cs-title">Total Cost Estimate — Per Person</div>
+    <div class="cs-grid">
+      <div class="cs-item">
+        <div class="cs-label">Accommodation</div>
+        <div class="cs-tiers">
+          <div class="cs-tier"><span class="cs-tier-name">Budget</span><span class="cs-tier-val">${cs.budget.stay}</span></div>
+          <div class="cs-tier"><span class="cs-tier-name">Mid-range</span><span class="cs-tier-val">${cs.mid.stay}</span></div>
+          <div class="cs-tier"><span class="cs-tier-name">Premium</span><span class="cs-tier-val">${cs.premium.stay}</span></div>
+        </div>
+      </div>
+      <div class="cs-item">
+        <div class="cs-label">Food & Dining</div>
+        <div class="cs-tiers">
+          <div class="cs-tier"><span class="cs-tier-name">Budget</span><span class="cs-tier-val">${cs.budget.food}</span></div>
+          <div class="cs-tier"><span class="cs-tier-name">Mid-range</span><span class="cs-tier-val">${cs.mid.food}</span></div>
+          <div class="cs-tier"><span class="cs-tier-name">Premium</span><span class="cs-tier-val">${cs.premium.food}</span></div>
+        </div>
+      </div>
+      <div class="cs-item">
+        <div class="cs-label">Transport</div>
+        <div class="cs-tiers">
+          <div class="cs-tier"><span class="cs-tier-name">Budget</span><span class="cs-tier-val">${cs.budget.transport}</span></div>
+          <div class="cs-tier"><span class="cs-tier-name">Mid-range</span><span class="cs-tier-val">${cs.mid.transport}</span></div>
+          <div class="cs-tier"><span class="cs-tier-name">Premium</span><span class="cs-tier-val">${cs.premium.transport}</span></div>
+        </div>
+      </div>
+      <div class="cs-item">
+        <div class="cs-label">Trip Total</div>
+        <div class="cs-tiers">
+          <div class="cs-tier"><span class="cs-tier-name">Budget</span><span class="cs-tier-val" style="color:var(--gold2)">${cs.budget.total}</span></div>
+          <div class="cs-tier"><span class="cs-tier-name">Mid-range</span><span class="cs-tier-val" style="color:var(--gold2)">${cs.mid.total}</span></div>
+          <div class="cs-tier"><span class="cs-tier-name">Premium</span><span class="cs-tier-val" style="color:var(--gold2)">${cs.premium.total}</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="cs-total">
+      <div class="cs-total-label">Estimated total for ${p.travellers} traveller${p.travellers>1?'s':''} (mid-range)</div>
+      <div class="cs-total-val">${multiplyINR(cs.mid.total, p.travellers)} total</div>
+    </div>
+  `;
+
+  // STAYS
+  const tiers = [
+    { key:'budget', label:'Budget', cls:'budget', range:'₹500 – ₹2,000/night', icon:'🏠' },
+    { key:'mid', label:'Mid-range', cls:'mid', range:'₹2,000 – ₹6,000/night', icon:'🏨' },
+    { key:'premium', label:'Premium', cls:'premium', range:'₹6,000+/night', icon:'🏩' }
+  ];
+  document.getElementById('stayGrid').innerHTML = tiers.map(t => `
+    <div class="tier-col">
+      <div class="tier-head ${t.cls}">
+        <div>
+          <div class="tier-name ${t.cls}">${t.icon} ${t.label}</div>
+          <div class="tier-price-range ${t.cls}" style="font-size:10px;margin-top:2px">${t.range}</div>
+        </div>
+      </div>
+      <div class="tier-items">
+        ${(p.stays[t.key]||[]).map(h => `
+          <div class="tier-item">
+            <div class="ti-icon" style="background:${t.cls==='budget'?'rgba(46,125,50,0.1)':t.cls==='mid'?'rgba(21,101,192,0.1)':'rgba(200,134,26,0.1)'}">🏡</div>
+            <div class="ti-info">
+              <div class="ti-name">${h.name}</div>
+              <div class="ti-detail">${h.type}</div>
+              <div class="ti-rating"><span class="star">★</span> ${h.rating} · ${h.highlight}</div>
+            </div>
+            <div style="text-align:right">
+              <div class="ti-price">${h.pricePerNight}</div>
+              <div style="font-size:9px;color:var(--text3);margin-top:2px">/night</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  // FOOD
+  const foodEmojis = ['🍛','🍜','🥘','🫕','🍲'];
+  document.getElementById('foodGrid').innerHTML = (p.food||[]).slice(0,5).map((f,i) => `
+    <div class="food-card">
+      <div class="fc-icon" style="background:rgba(200,134,26,0.1)">${f.icon||foodEmojis[i]}</div>
+      <div class="fc-name">${f.name}</div>
+      <div class="fc-type">${f.type}</div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:6px">Try: <strong>${f.specialty}</strong></div>
+      <div class="fc-price">${f.pricePerMeal}/meal</div>
+      <div class="fc-rating">★ ${f.rating} Google</div>
+    </div>
+  `).join('');
+
+  // TRANSPORT
+  const tr = p.transport;
+  document.getElementById('transportGrid').innerHTML = `
+    <div class="transport-card">
+      <div class="tc-head">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="6" width="22" height="14" rx="2"/><path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2M8 18h.01M16 18h.01"/></svg>
+        <div class="tc-head-title">Train Options</div>
+        <div class="tc-head-sub">Book at IRCTC</div>
+      </div>
+      <div class="tc-body">
+        ${(tr.trains||[]).map(t => `
+          <div class="tc-row">
+            <div>
+              <div class="tc-name">${t.name}</div>
+              <div class="tc-detail">${t.class} · ${t.duration}</div>
+            </div>
+            <div class="tc-price">${t.fare}</div>
+            <div class="tc-book">${t.bookAt}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    <div class="transport-card">
+      <div class="tc-head" style="background:linear-gradient(135deg,#1a237e,#283593)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.8 19.2L16 11l3.5-3.5C21 6 21 4 19.5 2.5c-1.5-1.5-3.5-1.5-5 0L11 6 2.8 4.2l-1 1 5.8 4.4-3.6 3.6 1.4 3.4 3.4 1.4 3.6-3.6 4.4 5.8z"/></svg>
+        <div class="tc-head-title">Flight Options</div>
+        <div class="tc-head-sub">Best fares</div>
+      </div>
+      <div class="tc-body">
+        ${(tr.flights||[]).map(f => `
+          <div class="tc-row">
+            <div>
+              <div class="tc-name">${f.airline}</div>
+              <div class="tc-detail">${f.type} · ${f.duration}</div>
+            </div>
+            <div class="tc-price">${f.fare}</div>
+            <div class="tc-book">${f.bookAt}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    <div class="transport-card" style="grid-column:1/-1">
+      <div class="tc-head" style="background:linear-gradient(135deg,var(--teal),#00897b)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        <div class="tc-head-title">Local Transport Options</div>
+        <div class="tc-head-sub">Getting around ${p.destination}</div>
+      </div>
+      <div class="tc-body" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0">
+        ${(tr.local||[]).map(l => `
+          <div class="tc-row">
+            <div>
+              <div class="tc-name">${l.mode}</div>
+              <div class="tc-detail">${l.route}</div>
+              <div class="tc-detail" style="color:var(--teal);margin-top:2px">${l.tip}</div>
+            </div>
+            <div class="tc-price">${l.fare}</div>
+            <div></div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  // ROAD ROUTE
+  const rr = p.roadRoute;
+  document.getElementById('routeTitle').textContent = rr.title;
+  document.getElementById('routeSub').textContent = `Total approx distance: ${rr.totalDistance}`;
+  document.getElementById('routeLegs').innerHTML = (rr.legs||[]).map(l => `
+    <div class="route-leg">
+      <div class="rl-from-to">${l.from} <span class="rl-arrow">→</span> ${l.to}</div>
+      <div class="rl-stats">
+        <div class="rl-stat"><span class="rl-stat-label">Distance</span><span class="rl-stat-val">${l.distance}</span></div>
+        <div class="rl-stat"><span class="rl-stat-label">Drive time</span><span class="rl-stat-val">${l.time}</span></div>
+        <div class="rl-stat"><span class="rl-stat-label">Toll est.</span><span class="rl-stat-val">${l.toll}</span></div>
+      </div>
+      <div class="rl-road">${l.road}</div>
+    </div>
+  `).join('');
+
+  // ITINERARY
+  itinData = p.itinerary || [];
+  const dayBtns = document.getElementById('itinDayBtns');
+  document.getElementById('itinSubTitle').textContent = `${itinData.length}-day detailed schedule with activities & costs`;
+  dayBtns.innerHTML = itinData.map((d,i) => `
+    <button class="itin-day-btn ${i===0?'active':''}" onclick="showDay(${i})">Day ${d.day}</button>
+  `).join('');
+  if(itinData.length > 0) renderItinDay(itinData[0]);
+
+  // PLACES
+  document.getElementById('placesGrid').innerHTML = (p.places||[]).map(pl => `
+    <div class="place-card">
+      <div class="pc-img" style="background:linear-gradient(135deg,var(--navy),var(--teal))">
+        <div class="pc-img-overlay"></div>
+        <div style="font-size:40px;opacity:0.6">${pl.emoji||'🏛️'}</div>
+        <div class="pc-img-label">${pl.name}</div>
+        <div class="pc-fee">${pl.entryFee}</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-name">${pl.name}</div>
+        <div class="pc-ratings">
+          <div class="pc-rating">
+            <span style="color:#f59e0b;font-size:12px">★</span>
+            <span class="pc-rating-score">${pl.googleRating}</span>
+            <span class="pc-rating-platform">Google</span>
+          </div>
+          <div style="width:1px;background:var(--border)"></div>
+          <div class="pc-rating">
+            <span style="color:#34d07e;font-size:12px">◆</span>
+            <span class="pc-rating-score">${pl.tripAdvisorRank}</span>
+            <span class="pc-rating-platform">TripAdvisor</span>
+          </div>
+        </div>
+        <div class="pc-best-time">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          Best time: ${pl.bestTime}
+        </div>
+        <div class="pc-highlight">${pl.highlight}</div>
+      </div>
+    </div>
+  `).join('');
+
+  // BOOKING TABLE
+  const avBadge = a => a==='High'?'cb-high':a==='Medium'?'cb-med':'cb-low';
+  document.getElementById('bookingRows').innerHTML = (p.bookingGuide||[]).map(b => `
+    <div class="bt-row">
+      <div class="bt-cell"><span class="bt-platform">${b.platform}</span></div>
+      <div class="bt-cell">${b.what}</div>
+      <div class="bt-cell"><span class="bt-price">${b.estRate}</span></div>
+      <div class="bt-cell">
+        <span class="confirm-badge ${avBadge(b.availability)}">${b.availability}</span>
+        <a href="${b.url}" class="bt-link" target="_blank">Book →</a>
+      </div>
+    </div>
+  `).join('');
+
+  results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function multiplyINR(str, n) {
+  const match = str.replace(/,/g,'').match(/[\d]+/);
+  if(!match) return str;
+  return '₹' + (parseInt(match[0]) * parseInt(n)).toLocaleString('en-IN');
+}
+</script>
+</body>
+</html>
