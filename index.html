@@ -438,7 +438,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
 
 <script>
 const GEMINI_KEY = 'AIzaSyBfY8ocMKSvjTND9k0n1Ib8bY5TeqdhKaA';
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${GEMINI_KEY}`;
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`;
 
 let itinData = [];
 
@@ -619,7 +619,7 @@ Replace all placeholder values with REAL, accurate data specific to ${dest}, Ind
   try {
     const res = await fetch(GEMINI_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': GEMINI_KEY },
       body: JSON.stringify({
         contents: [{ parts: [{ text: prompt }] }],
         generationConfig: { temperature: 0.7, maxOutputTokens: 8192 }
